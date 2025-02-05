@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getInstruments } from "../backend/api";
 import "./App.css";
 
 const Home = ({ startQuiz }) => {
   return (
     <div className="home-container">
-      <h1>Bienvenue sur un site pour les instruments de musique !</h1>
+      <h1>Bienvenue sur Harmonixis!</h1>
       <p>Vous pouvez choisir un instrument et regarder les explications</p>
       <button onClick={startQuiz}>Allez sur le site</button>
     </div>
