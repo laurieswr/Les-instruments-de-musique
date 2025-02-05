@@ -5,7 +5,7 @@ Les instruments qui y seront présents sont:
 - violoncelle,
 - Alto,
 - contrebasse,
-- flute,
+- flute traversière,
 - hautbois,
 - clarinette,
 - trombone,
