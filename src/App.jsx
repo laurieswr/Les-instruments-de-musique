@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getInstruments } from "../backend/api";
+import Categories from './categories';
 import "./App.css";
 
 const Home = ({ startQuiz }) => {
@@ -7,7 +8,7 @@ const Home = ({ startQuiz }) => {
     <div className="home-container">
       <h1>Bienvenue sur Harmonixis!</h1>
       <p>Vous pouvez choisir un instrument et regarder les explications</p>
-      <button onClick={startQuiz}>Allez sur le site</button>
+      <button onClick={startQuiz}>Allez voir les instruments</button>
     </div>
   );
 };
@@ -142,6 +143,7 @@ const InstrumentMusic = () => {
             <p><strong>Description:</strong> {selectedInstrument.description_de_linstrument}</p>
             <p><strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}</p>
             <p><strong>Morceaux:</strong> {selectedInstrument.morceau}</p>
+            <div><strong>Catégorie:</strong> <Categories /></div>
           </div>
         ) : (
           <p className="text-xl">Sélectionnez un instrument dans le menu</p>

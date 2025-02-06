@@ -60,7 +60,7 @@ function get_instruments() {
             'image'       => $image_url,
             'taille'      => $pod->field('taille_de_linstrument'),
             'morceau'     => $pod->field('morceau'),
-            'categorie'   => $pod->field('categorie_de_linstrument'),
+            'categorie'   => $pod->field('categorie_dinstrument'),
         ];
     }
 
@@ -86,7 +86,7 @@ function add_instrument($request) {
         'image'                      => isset($params['image']) ? esc_url_raw($params['image']) : '',
         'taille_de_linstrument'      => sanitize_text_field($params['taille']),
         'morceau'                    => sanitize_text_field($params['morceau']),
-        'categorie_de_linstrument'   => sanitize_text_field($params['categorie']),
+        'categorie_dinstrument'   => sanitize_text_field($params['categorie']),
     ]);
 
 
@@ -96,6 +96,30 @@ function add_instrument($request) {
 
     return rest_ensure_response(['message' => 'Instrument ajouté avec succès', 'id' => $new_id]);
 }
+
+$app->get('/api/categories', function () {
+    $categories = get_categories();
+    return json_encode($categories);
+  });
+  
+function get_categories() {
+    // Récupération des catégories depuis Pods ou votre base de données
+    $categories = pods('categorie', array(
+      'limit' => -1,
+    ));
+  
+    // Traitement des catégories pour les retourner sous forme de tableau
+    $categories_array = array();
+    foreach ($categories as $category) {
+      $categories_array[] = array(
+        'id' => $category['id'],
+        'name' => $category['name'],
+      );
+    }
+  
+    // Retour des catégories sous forme de tableau
+    return $categories_array;
+  }
 
 // 🔹 Sécurisation JWT (si besoin d'authentification)
 define('JWT_AUTH_SECRET_KEY', 'ta_cle_secrete_ultra_securisee');
