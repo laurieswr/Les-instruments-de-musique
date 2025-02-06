@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { getInstruments } from "../backend/api";
-import Categories from './categories';
+import axios from "axios";
 import "./App.css";
 
-const Home = ({ startQuiz }) => {
-  return (
-    <div className="home-container">
-      <h1>Bienvenue sur Harmonixis!</h1>
-      <p>Vous pouvez choisir un instrument et regarder les explications</p>
-      <button onClick={startQuiz}>Allez voir les instruments</button>
-    </div>
-  );
-};
+const Home = ({ startQuiz }) => (
+  <div className="home-container">
+    <h1>Bienvenue sur Harmonixis!</h1>
+    <p>Vous pouvez choisir un instrument et regarder les explications</p>
+    <button onClick={startQuiz}>Allez voir les instruments</button>
+  </div>
+);
 
 const InstrumentMusic = () => {
   const [instruments, setInstruments] = useState([]);
@@ -21,106 +18,75 @@ const InstrumentMusic = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sorted, setSorted] = useState(false);
-  const [category, setCategory] = useState("");
+  const [selectedFamily, setSelectedFamily] = useState(""); // 1. Ajout d'un état pour la famille sélectionnée
 
   useEffect(() => {
-    getInstruments()
-      .then((data) => {
-        console.log("📡 Données reçues :", data);
-        setInstruments(data);
+    const fetchData = async () => {
+      try {
+        const instrumentsRes = await axios.get("http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/");
+        console.log("Instruments reçus:", instrumentsRes.data);
+        setInstruments(instrumentsRes.data);
+      } catch (err) {
+        console.error("Erreur de chargement:", err);
+        setError("Erreur lors du chargement des données");
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Erreur lors de la récupération des instruments:", err);
-        setError("Impossible de charger les instruments.");
-        setLoading(false);
-      });
+      }
+    };
+    fetchData();
   }, []);
 
-  // Fonction pour obtenir les instruments filtrés et triés
-  const getFilteredAndSortedInstruments = () => {
-    let result = instruments;
-
-    // Filtrage par catégorie
-    if (category) {
-      result = result.filter((instr) => instr.categorie === category);
-    }
-
-    // Tri alphabétique
-    if (sorted) {
-      result = [...result].sort((a, b) =>
-        a.nom_de_linstrument.localeCompare(b.nom_de_linstrument)
-      );
-    }
-
-    return result;
+  const getSortedInstruments = () => {
+    return sorted
+      ? [...instruments].sort((a, b) => a.nom_de_linstrument.localeCompare(b.nom_de_linstrument))
+      : instruments;
   };
 
-  // Gestion du tri
-  const toggleSort = () => {
-    setSorted((prevSorted) => !prevSorted);
+  // 2. Fonction pour filtrer par famille
+  const getFilteredInstruments = () => {
+    if (!selectedFamily) return getSortedInstruments(); // Si aucune famille n'est sélectionnée, ne filtre pas
+    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
   };
 
-  // Gestion du filtrage par catégorie
-  const filterByCategory = (event) => {
-    setCategory(event.target.value);
-  };
-
-  // Liste des instruments filtrés et triés
-  const instrumentsAffiches = getFilteredAndSortedInstruments();
-
-  if (!quizStarted) {
-    return <Home startQuiz={() => setQuizStarted(true)} />;
-  }
+  if (!quizStarted) return <Home startQuiz={() => setQuizStarted(true)} />;
 
   return (
     <div className="flex h-screen">
-      {/* Menu Burger */}
-      <div
-        className={`burger-menu ${menuOpen ? "active" : ""}`}
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
+      <div className={`burger-menu ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
         <div></div>
         <div></div>
         <div></div>
       </div>
 
-      {/* Barre latérale */}
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
-        <h2 className="text-2xl font-bold mb-4">Instruments de musique</h2>
+        <h2>Instruments de musique</h2>
         
-        {/* Bouton de tri */}
-        <button onClick={toggleSort} className="mb-4 p-2 bg-blue-500 text-white rounded">
+        {/* 3. Liste déroulante pour choisir une famille */}
+        <select
+          value={selectedFamily}
+          onChange={(e) => setSelectedFamily(e.target.value)}
+        >
+          <option value="">Toutes les familles</option>
+          {/* Ajoutez des options pour chaque famille d'instrument */}
+          <option value="cordes">Cordes</option>
+          <option value="cuivres">Cuivres</option>
+          <option value="percussions">Percussions</option>
+          <option value="bois">Bois</option>
+          <option value="claviers">Claviers</option>
+        </select>
+
+        <button onClick={() => setSorted(!sorted)}>
           {sorted ? "Trier Z-A" : "Trier A-Z"}
         </button>
 
-        {/* Filtrage par catégorie */}
-        <select onChange={filterByCategory} value={category} className="mb-4 p-2 border rounded">
-          <option value="">Toutes catégories</option>
-          <option value="cordes-frottees">Instruments à cordes frottées</option>
-          <option value="cordes-pincees">Instruments à cordes pincées</option>
-          <option value="vents-bois">Instrument à vents (bois)</option>
-          <option value="vents-cuivres">Instrument à vents (cuivres)</option>
-        </select>
-
-        {/* Liste des instruments */}
         {loading ? (
           <p>Chargement...</p>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : (
           <ul>
-            {instrumentsAffiches.map((instr) => (
-              <li
-                key={instr.id}
-                className={`cursor-pointer p-2 hover:bg-gray-700 ${
-                  selectedInstrument?.categorie_dinstrument === instr.categorie_dinstrument ? "bg-gray-600" : ""
-                }`}
-                onClick={() => {
-                  setSelectedInstrument(instr);
-                  setMenuOpen(false);
-                }}
-              >
+            {getFilteredInstruments().map(instr => (
+              <li key={instr.id} onClick={() => { setSelectedInstrument(instr); setMenuOpen(false); }}>
                 {instr.nom_de_linstrument}
               </li>
             ))}
@@ -128,11 +94,10 @@ const InstrumentMusic = () => {
         )}
       </nav>
 
-      {/* Contenu principal */}
       <main className="w-3/4 p-6">
         {selectedInstrument ? (
           <div>
-            <h2 className="text-3xl font-bold">{selectedInstrument.nom_de_linstrument}</h2>
+            <h2>{selectedInstrument.nom_de_linstrument}</h2>
             {selectedInstrument.image && (
               <img
                 src={selectedInstrument.image.guid}
@@ -143,10 +108,10 @@ const InstrumentMusic = () => {
             <p><strong>Description:</strong> {selectedInstrument.description_de_linstrument}</p>
             <p><strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}</p>
             <p><strong>Morceaux:</strong> {selectedInstrument.morceau}</p>
-            <div><strong>Catégorie:</strong> <Categories /></div>
+            <p><strong>Famille:</strong> {selectedInstrument.categorie_de_linstrument}</p>
           </div>
         ) : (
-          <p className="text-xl">Sélectionnez un instrument dans le menu</p>
+          <p>Sélectionnez un instrument dans le menu</p>
         )}
       </main>
     </div>
