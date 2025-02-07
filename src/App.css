@@ -1,9 +1,3 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 /* 🌟 Global Styles */
 body {
   font-family: "Poppins", sans-serif;
@@ -14,20 +8,28 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100%;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
 /* 🎵 Home Page */
 .home-container {
   text-align: center;
-  padding: 50px;
+  padding: 5%;
   background: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  max-width: 500px;
+  max-width: 80%;
 }
 
 .home-container h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #333;
 }
 
@@ -55,13 +57,14 @@ body {
 /* 🎼 Layout */
 .flex {
   display: flex;
-  width: 90%;
-  max-width: 1200px;
+  flex-direction: row;
+  width: 100%;
   height: 90vh;
   background: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;
+  padding: 2%;
 }
 
 /* 🎶 Sidebar */
@@ -69,11 +72,11 @@ nav {
   width: 30%;
   background: #1f2937;
   color: white;
-  padding: 20px;
+  padding: 5%;
 }
 
 nav h2 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   border-bottom: 2px solid #4a5568;
   padding-bottom: 10px;
   margin-bottom: 20px;
@@ -85,7 +88,7 @@ nav ul {
 }
 
 nav ul li {
-  padding: 12px;
+  padding: 10%;
   cursor: pointer;
   transition: background 0.3s ease;
   border-radius: 5px;
@@ -102,11 +105,11 @@ nav ul li.bg-gray-600 {
 /* 🎸 Main Content */
 main {
   width: 70%;
-  padding: 30px;
+  padding: 5%;
 }
 
 main h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #333;
 }
 
@@ -116,7 +119,7 @@ main p {
 }
 
 main img {
-  width: 300px;
+  width: 40%;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
@@ -151,25 +154,39 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     margin: 0;
     padding: 0;
     height: 100vh;
+    width: 100%;
   }
-  
+
+  .flex {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
+  .home-container {
+    padding: 5%;
+    width: 90%;
+  }
+
   img {
-    width: 100px;
+    width: 60%;
+    margin-top: 5%;
   }
-  
+
   /* 🎵 Titre principal */
   h1, h2 {
     font-family: "Merriweather", serif;
     font-weight: 700;
     letter-spacing: 1px;
   }
-  
+
   /* 🌟 Sous-titres et texte */
   p {
     font-family: "Merriweather", serif;
     font-weight: 400;
     line-height: 1.6;
   }
+
   nav {
     width: 100%;
     position: absolute;
@@ -177,6 +194,7 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     left: -100%;
     height: 100vh;
     transition: left 0.3s ease;
+    padding: 5%;
   }
 
   /* Icône menu burger */
@@ -199,7 +217,7 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
 
   /* Afficher la barre latérale quand active */
   nav.active {
-    left: auto;
+    left: 0;
   }
 
   /* Animation du menu burger en croix */
@@ -213,5 +231,20 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
 
   .burger-menu.active div:nth-child(3) {
     transform: translateY(-10px) rotate(-45deg);
+  }
+
+  /* 🎶 Pour le menu burger */
+  nav ul li {
+    padding: 20%;
+    text-align: center;
+  }
+
+  main {
+    width: 100%;
+    padding: 5%;
+  }
+
+  main h2 {
+    font-size: 1.8rem;
   }
 }

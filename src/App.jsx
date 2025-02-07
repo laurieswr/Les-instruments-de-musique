@@ -34,15 +34,17 @@ const InstrumentMusic = () => {
     fetchData();
   }, []);
 
+  // Filtrer les instruments par famille
+  const getFilteredInstruments = () => {
+    if (!selectedFamily) return getSortedInstruments(); // Aucun filtre sélectionné, donc on retourne tous les instruments
+    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
+  };
+
+  // Trier les instruments par nom
   const getSortedInstruments = () => {
     return sorted
       ? [...instruments].sort((a, b) => a.nom_de_linstrument.localeCompare(b.nom_de_linstrument))
       : instruments;
-  };
-
-  const getFilteredInstruments = () => {
-    if (!selectedFamily) return getSortedInstruments();
-    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
   };
 
   if (!quizStarted) return <Home startQuiz={() => setQuizStarted(true)} />;
@@ -58,6 +60,7 @@ const InstrumentMusic = () => {
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
         <h2>Instruments de musique</h2>
         
+        {/* Filtrage par famille */}
         <select
           value={selectedFamily}
           onChange={(e) => setSelectedFamily(e.target.value)}
@@ -70,6 +73,7 @@ const InstrumentMusic = () => {
           <option value="claviers">Claviers</option>
         </select>
 
+        {/* Tri A-Z ou Z-A */}
         <button onClick={() => setSorted(!sorted)}>
           {sorted ? "Trier Z-A" : "Trier A-Z"}
         </button>
