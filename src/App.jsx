@@ -18,16 +18,14 @@ const InstrumentMusic = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sorted, setSorted] = useState(false);
-  const [selectedFamily, setSelectedFamily] = useState(""); // 1. Ajout d'un état pour la famille sélectionnée
+  const [selectedFamily, setSelectedFamily] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const instrumentsRes = await axios.get("http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/");
-        console.log("Instruments reçus:", instrumentsRes.data);
         setInstruments(instrumentsRes.data);
       } catch (err) {
-        console.error("Erreur de chargement:", err);
         setError("Erreur lors du chargement des données");
       } finally {
         setLoading(false);
@@ -42,9 +40,8 @@ const InstrumentMusic = () => {
       : instruments;
   };
 
-  // 2. Fonction pour filtrer par famille
   const getFilteredInstruments = () => {
-    if (!selectedFamily) return getSortedInstruments(); // Si aucune famille n'est sélectionnée, ne filtre pas
+    if (!selectedFamily) return getSortedInstruments();
     return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
   };
 
@@ -61,13 +58,11 @@ const InstrumentMusic = () => {
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
         <h2>Instruments de musique</h2>
         
-        {/* 3. Liste déroulante pour choisir une famille */}
         <select
           value={selectedFamily}
           onChange={(e) => setSelectedFamily(e.target.value)}
         >
           <option value="">Toutes les familles</option>
-          {/* Ajoutez des options pour chaque famille d'instrument */}
           <option value="cordes">Cordes</option>
           <option value="cuivres">Cuivres</option>
           <option value="percussions">Percussions</option>
@@ -86,7 +81,14 @@ const InstrumentMusic = () => {
         ) : (
           <ul>
             {getFilteredInstruments().map(instr => (
-              <li key={instr.id} onClick={() => { setSelectedInstrument(instr); setMenuOpen(false); }}>
+              <li key={instr.id} onClick={() => { 
+                if (selectedInstrument?.id === instr.id) {
+                  setSelectedInstrument(null); // Désélectionne l'instrument si déjà sélectionné
+                } else {
+                  setSelectedInstrument(instr);
+                }
+                setMenuOpen(false);
+              }}>
                 {instr.nom_de_linstrument}
               </li>
             ))}
