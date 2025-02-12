@@ -23,13 +23,11 @@ const InstrumentMusic = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const instrumentsRes = await axios.get("http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100");
-        console.log("Instruments reçus:", instrumentsRes.data);
-        setInstruments(instrumentsRes.data);
-
-        // Vérifier les catégories disponibles
-        const categories = instrumentsRes.data.map(instr => instr.categorie_de_linstrument);
-        console.log("Catégories d'instruments:", [...new Set(categories)]);
+        const { data } = await axios.get(
+          "http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100"
+        );
+        console.log("Instruments reçus:", data);
+        setInstruments(data);
       } catch (err) {
         console.error("Erreur de chargement:", err);
         setError("Erreur lors du chargement des données");
@@ -40,22 +38,28 @@ const InstrumentMusic = () => {
     fetchData();
   }, []);
 
-  const getSortedInstruments = () => {
-    return sorted
-      ? [...instruments].sort((a, b) => a.nom_de_linstrument.localeCompare(b.nom_de_linstrument))
+  const getSortedInstruments = () =>
+    sorted
+      ? [...instruments].sort((a, b) =>
+          a.nom_de_linstrument.localeCompare(b.nom_de_linstrument)
+        )
       : instruments;
-  };
 
-  const getFilteredInstruments = () => {
-    if (!selectedFamily) return getSortedInstruments();
-    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
-  };
+  const getFilteredInstruments = () =>
+    selectedFamily
+      ? getSortedInstruments().filter(
+          (instr) => instr.categorie_de_linstrument === selectedFamily
+        )
+      : getSortedInstruments();
 
   if (!quizStarted) return <Home startQuiz={() => setQuizStarted(true)} />;
 
   return (
     <div className="flex h-screen">
-      <div className={`burger-menu ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
+      <div
+        className={`burger-menu ${menuOpen ? "active" : ""}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
         <div></div>
         <div></div>
         <div></div>
@@ -64,7 +68,10 @@ const InstrumentMusic = () => {
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
         <h2>Instruments de musique</h2>
 
-        <select value={selectedFamily} onChange={(e) => setSelectedFamily(e.target.value)}>
+        <select
+          value={selectedFamily}
+          onChange={(e) => setSelectedFamily(e.target.value)}
+        >
           <option value="">Toutes les familles</option>
           <option value="Cordes frottées">Cordes frottées</option>
           <option value="Cordes pincées">Cordes pincées</option>
@@ -83,8 +90,14 @@ const InstrumentMusic = () => {
           <p className="text-red-500">{error}</p>
         ) : (
           <ul>
-            {getFilteredInstruments().map(instr => (
-              <li key={instr.id} onClick={() => { setSelectedInstrument(instr); setMenuOpen(false); }}>
+            {getFilteredInstruments().map((instr) => (
+              <li
+                key={instr.id}
+                onClick={() => {
+                  setSelectedInstrument(instr);
+                  setMenuOpen(false);
+                }}
+              >
                 {instr.nom_de_linstrument}
               </li>
             ))}
@@ -103,10 +116,18 @@ const InstrumentMusic = () => {
                 className="w-64 my-4 rounded-lg shadow-md"
               />
             )}
-            <p><strong>Description:</strong> {selectedInstrument.description_de_linstrument}</p>
-            <p><strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}</p>
-            <p><strong>Morceaux:</strong> {selectedInstrument.morceau}</p>
-            <p><strong>Famille:</strong> {selectedInstrument.categorie_de_linstrument}</p>
+            <p>
+              <strong>Description:</strong> {selectedInstrument.description_de_linstrument}
+            </p>
+            <p>
+              <strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}
+            </p>
+            <p>
+              <strong>Morceaux:</strong> {selectedInstrument.morceau}
+            </p>
+            <p>
+              <strong>Famille:</strong> {selectedInstrument.categorie_de_linstrument}
+            </p>
           </div>
         ) : (
           <p>Sélectionnez un instrument dans le menu</p>
