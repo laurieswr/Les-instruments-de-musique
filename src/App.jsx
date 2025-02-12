@@ -23,9 +23,15 @@ const InstrumentMusic = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const instrumentsRes = await axios.get("http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/");
+        const instrumentsRes = await axios.get("http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100");
+        console.log("Instruments reçus:", instrumentsRes.data);
         setInstruments(instrumentsRes.data);
+
+        // Vérifier les catégories disponibles
+        const categories = instrumentsRes.data.map(instr => instr.categorie_de_linstrument);
+        console.log("Catégories d'instruments:", [...new Set(categories)]);
       } catch (err) {
+        console.error("Erreur de chargement:", err);
         setError("Erreur lors du chargement des données");
       } finally {
         setLoading(false);
@@ -34,17 +40,15 @@ const InstrumentMusic = () => {
     fetchData();
   }, []);
 
-  // Filtrer les instruments par famille
-  const getFilteredInstruments = () => {
-    if (!selectedFamily) return getSortedInstruments(); // Aucun filtre sélectionné, donc on retourne tous les instruments
-    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
-  };
-
-  // Trier les instruments par nom
   const getSortedInstruments = () => {
     return sorted
       ? [...instruments].sort((a, b) => a.nom_de_linstrument.localeCompare(b.nom_de_linstrument))
       : instruments;
+  };
+
+  const getFilteredInstruments = () => {
+    if (!selectedFamily) return getSortedInstruments();
+    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
   };
 
   if (!quizStarted) return <Home startQuiz={() => setQuizStarted(true)} />;
@@ -59,21 +63,16 @@ const InstrumentMusic = () => {
 
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
         <h2>Instruments de musique</h2>
-        
-        {/* Filtrage par famille */}
-        <select
-          value={selectedFamily}
-          onChange={(e) => setSelectedFamily(e.target.value)}
-        >
+
+        <select value={selectedFamily} onChange={(e) => setSelectedFamily(e.target.value)}>
           <option value="">Toutes les familles</option>
-          <option value="cordes">Cordes</option>
-          <option value="cuivres">Cuivres</option>
-          <option value="percussions">Percussions</option>
-          <option value="bois">Bois</option>
-          <option value="claviers">Claviers</option>
+          <option value="Cordes frottées">Cordes frottées</option>
+          <option value="Cordes pincées">Cordes pincées</option>
+          <option value="Cuivres">Vent (Cuivres)</option>
+          <option value="Bois">Vent (Bois)</option>
+          <option value="Percussions">Percussions</option>
         </select>
 
-        {/* Tri A-Z ou Z-A */}
         <button onClick={() => setSorted(!sorted)}>
           {sorted ? "Trier Z-A" : "Trier A-Z"}
         </button>
@@ -85,14 +84,7 @@ const InstrumentMusic = () => {
         ) : (
           <ul>
             {getFilteredInstruments().map(instr => (
-              <li key={instr.id} onClick={() => { 
-                if (selectedInstrument?.id === instr.id) {
-                  setSelectedInstrument(null); // Désélectionne l'instrument si déjà sélectionné
-                } else {
-                  setSelectedInstrument(instr);
-                }
-                setMenuOpen(false);
-              }}>
+              <li key={instr.id} onClick={() => { setSelectedInstrument(instr); setMenuOpen(false); }}>
                 {instr.nom_de_linstrument}
               </li>
             ))}
