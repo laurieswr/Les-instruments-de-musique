@@ -7,7 +7,6 @@ const InstrumentMusic = () => {
   const [selectedInstrument, setSelectedInstrument] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quizStarted, setQuizStarted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sorted, setSorted] = useState(false);
   const [selectedFamily, setSelectedFamily] = useState("");
@@ -43,8 +42,6 @@ const InstrumentMusic = () => {
           (instr) => instr.categorie_de_linstrument === selectedFamily
         )
       : getSortedInstruments();
-
-  if (!quizStarted) return <Home startQuiz={() => setQuizStarted(true)} />;
 
   return (
     <div className="flex h-screen">
