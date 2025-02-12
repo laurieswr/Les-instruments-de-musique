@@ -2,14 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const Home = ({ startQuiz }) => (
-  <div className="home-container">
-    <h1>Bienvenue sur Harmonixis!</h1>
-    <p>Vous pouvez choisir un instrument et regarder les explications</p>
-    <button onClick={startQuiz}>Allez voir les instruments</button>
-  </div>
-);
-
 const InstrumentMusic = () => {
   const [instruments, setInstruments] = useState([]);
   const [selectedInstrument, setSelectedInstrument] = useState(null);
@@ -73,10 +65,10 @@ const InstrumentMusic = () => {
           onChange={(e) => setSelectedFamily(e.target.value)}
         >
           <option value="">Toutes les familles</option>
-          <option value="Cordes frottées">Cordes frottées</option>
-          <option value="Cordes pincées">Cordes pincées</option>
-          <option value="Cuivres">Vent (Cuivres)</option>
-          <option value="Bois">Vent (Bois)</option>
+          <option value="famille des instruments à cordes frottées">Cordes frottées</option>
+          <option value="famille des instruments à cordes pincées">Cordes pincées</option>
+          <option value="famille des instruments à vent (cuivres)">Vent (Cuivres)</option>
+          <option value="famille des instruments à vent (Bois)">Vent (Bois)</option>
           <option value="Percussions">Percussions</option>
         </select>
 
