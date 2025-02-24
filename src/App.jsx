@@ -62,11 +62,12 @@ const InstrumentMusic = () => {
           onChange={(e) => setSelectedFamily(e.target.value)}
         >
           <option value="">Toutes les familles</option>
-          <option value="famille des instruments à cordes frottées">Cordes frottées</option>
-          <option value="famille des instruments à cordes pincées">Cordes pincées</option>
-          <option value="famille des instruments à vent (cuivres)">Vent (Cuivres)</option>
-          <option value="famille des instruments à vent (Bois)">Vent (Bois)</option>
-          <option value="Percussions">Percussions</option>
+          <option value="famille des instruments à cordes frottées">famille des instruments à cordes frottées</option>
+          <option value="famille des instruments à cordes pincées">famille des instruments à cordes pincées</option>
+          <option value="famille des instruments à vents (cuivres)">famille des instruments à vents (cuivres)</option>
+          <option value="famille des instruments à vents (bois)">famille des instruments à vents (bois)</option>
+          <option value="famille des Percussions">famille des Percussions</option>
+          <option value="famille des Idiophones à frappe">famille des Idiophones à frappe</option>
         </select>
 
         <button onClick={() => setSorted(!sorted)}>
