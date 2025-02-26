@@ -2,32 +2,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const Home = ({ startQuiz }) => (
-  <div className="home-container">
-    <h1>Bienvenue sur Harmonixis!</h1>
-    <p>Vous pouvez choisir un instrument et regarder les explications</p>
-    <button onClick={startQuiz}>Allez voir les instruments</button>
-  </div>
-);
-
 const InstrumentMusic = () => {
   const [instruments, setInstruments] = useState([]);
   const [selectedInstrument, setSelectedInstrument] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quizStarted, setQuizStarted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sorted, setSorted] = useState(false);
-  const [selectedFamily, setSelectedFamily] = useState(""); // 1. Ajout d'un état pour la famille sélectionnée
+  const [selectedFamily, setSelectedFamily] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const instrumentsRes = await axios.get("http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/");
-        console.log("Instruments reçus:", instrumentsRes.data);
+        const instrumentsRes = await axios.get(
+          "http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100"
+        );
         setInstruments(instrumentsRes.data);
       } catch (err) {
-        console.error("Erreur de chargement:", err);
         setError("Erreur lors du chargement des données");
       } finally {
         setLoading(false);
@@ -42,13 +33,12 @@ const InstrumentMusic = () => {
       : instruments;
   };
 
-  // 2. Fonction pour filtrer par famille
   const getFilteredInstruments = () => {
-    if (!selectedFamily) return getSortedInstruments(); // Si aucune famille n'est sélectionnée, ne filtre pas
-    return getSortedInstruments().filter(instr => instr.categorie_de_linstrument === selectedFamily);
+    if (!selectedFamily) return getSortedInstruments();
+    return getSortedInstruments().filter(instr =>
+      instr.categorie_de_linstrument.toLowerCase().includes(selectedFamily.toLowerCase())
+    );
   };
-
-  if (!quizStarted) return <Home startQuiz={() => setQuizStarted(true)} />;
 
   return (
     <div className="flex h-screen">
@@ -60,19 +50,14 @@ const InstrumentMusic = () => {
 
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
         <h2>Instruments de musique</h2>
-        
-        {/* 3. Liste déroulante pour choisir une famille */}
-        <select
-          value={selectedFamily}
-          onChange={(e) => setSelectedFamily(e.target.value)}
-        >
+
+        <select value={selectedFamily} onChange={(e) => setSelectedFamily(e.target.value)}>
           <option value="">Toutes les familles</option>
-          {/* Ajoutez des options pour chaque famille d'instrument */}
-          <option value="cordes">Cordes</option>
-          <option value="cuivres">Cuivres</option>
+          <option value="cordes frottées">Cordes frottées</option>
+          <option value="cordes pincées">Cordes pincées</option>
+          <option value="famille des instruments à vent (cuivre)">famille des instruments à vent (Cuivres)</option>
+          <option value="famille des instruments à vent (bois)">famille des instruments à vents (Bois)</option>
           <option value="percussions">Percussions</option>
-          <option value="bois">Bois</option>
-          <option value="claviers">Claviers</option>
         </select>
 
         <button onClick={() => setSorted(!sorted)}>
@@ -99,11 +84,7 @@ const InstrumentMusic = () => {
           <div>
             <h2>{selectedInstrument.nom_de_linstrument}</h2>
             {selectedInstrument.image && (
-              <img
-                src={selectedInstrument.image.guid}
-                alt={selectedInstrument.nom_de_linstrument}
-                className="w-64 my-4 rounded-lg shadow-md"
-              />
+              <img src={selectedInstrument.image.guid} alt={selectedInstrument.nom_de_linstrument} className="w-64 my-4 rounded-lg shadow-md" />
             )}
             <p><strong>Description:</strong> {selectedInstrument.description_de_linstrument}</p>
             <p><strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}</p>
@@ -111,7 +92,15 @@ const InstrumentMusic = () => {
             <p><strong>Famille:</strong> {selectedInstrument.categorie_de_linstrument}</p>
           </div>
         ) : (
-          <p>Sélectionnez un instrument dans le menu</p>
+          <div>
+            <h2>Bienvenue dans la découverte des instruments !</h2>
+            <p>Vous pouvez choisir un instrument de musique parmi la liste d'instrument de musique à gauche ou choisir en fonction des différentes familles.</p>
+            <p><strong>Cordes frottées:</strong> Les instruments à cordes frottées produisent du son grâce à un archet frotté sur des cordes tendues.</p>
+            <p><strong>Cordes pincées:</strong> Les instruments à cordes pincées émettent du son lorsqu'on pince leurs cordes avec les doigts ou un médiator.</p>
+            <p><strong>Cuivres:</strong> Les cuivres produisent du son grâce à la vibration des lèvres dans l'embouchure de l'instrument.</p>
+            <p><strong>Bois:</strong> Les bois sont des instruments à vent dont le son est produit par la vibration d'un anche ou par un biseau.</p>
+            <p><strong>Percussions:</strong> Les percussions regroupent des instruments frappés, secoués ou frottés pour produire du son.</p>
+          </div>
         )}
       </main>
     </div>

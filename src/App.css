@@ -1,13 +1,16 @@
+/* 🎼🎵🎶 Global Styles 🎚️🎷🎸🪇🥁🪕🎻🎺🎹 */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
-/* 🌟 Global Styles */
+
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #f4f4f9;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><text x="10" y="40" font-size="30">🎼 🎵 🎶 🎤 🎧</text><text x="10" y="90" font-size="30">🎸 🥁 🎻 🎺 🎷</text></svg>');
+  background-repeat: repeat;
+  background-size: contain;
   margin: 0;
   padding: 0;
   display: flex;
@@ -16,7 +19,8 @@ body {
   height: 100vh;
 }
 
-/* 🎵 Home Page */
+
+/* 🎼 Home Page 🎵 */
 .home-container {
   text-align: center;
   padding: 50px;
@@ -52,10 +56,10 @@ body {
   background: #0056b3;
 }
 
-/* 🎼 Layout */
+/* 🎸 Layout 🎺 */
 .flex {
   display: flex;
-  width: 90%;
+  width: 1200px;
   max-width: 1200px;
   height: 90vh;
   background: white;
@@ -64,7 +68,7 @@ body {
   overflow: hidden;
 }
 
-/* 🎶 Sidebar */
+/* 🎤 Sidebar 🎻 */
 nav {
   width: 30%;
   background: #1f2937;
@@ -99,7 +103,7 @@ nav ul li.bg-gray-600 {
   background: #4a5568;
 }
 
-/* 🎸 Main Content */
+/* 🎷 Main Content 🎚️ */
 main {
   width: 70%;
   padding: 30px;
@@ -128,7 +132,7 @@ nav, main {
   scrollbar-color: #094fc9 #1f2937;
 }
 
-/* Pour les navigateurs basés sur WebKit (Chrome, Edge, Safari) */
+/* 🎵 Custom Scrollbar 🪇 */
 nav::-webkit-scrollbar, main::-webkit-scrollbar {
   width: 8px;
 }
@@ -143,11 +147,11 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
-/* 📱 Cacher la barre latérale sur mobile */
+/* 📱 Responsive - Hide Sidebar on Mobile 🎸 */
 @media screen and (max-width: 768px) {
   body {
     font-family: "Merriweather", serif;
-    background-color: #f4f7f9;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -157,19 +161,18 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     width: 100px;
   }
   
-  /* 🎵 Titre principal */
   h1, h2 {
     font-family: "Merriweather", serif;
     font-weight: 700;
     letter-spacing: 1px;
   }
   
-  /* 🌟 Sous-titres et texte */
   p {
     font-family: "Merriweather", serif;
     font-weight: 400;
     line-height: 1.6;
   }
+  
   nav {
     width: 100%;
     position: absolute;
@@ -179,7 +182,7 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     transition: left 0.3s ease;
   }
 
-  /* Icône menu burger */
+  /* 🎚️ Burger Menu */
   .burger-menu {
     display: block;
     position: absolute;
@@ -197,12 +200,12 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
-  /* Afficher la barre latérale quand active */
+  /* 🎵 Show Sidebar When Active 🎷 */
   nav.active {
     left: auto;
   }
 
-  /* Animation du menu burger en croix */
+  /* 🎼 Burger Menu Animation 🎹 */
   .burger-menu.active div:nth-child(1) {
     transform: translateY(10px) rotate(45deg);
   }

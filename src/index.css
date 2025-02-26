@@ -26,8 +26,14 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 500px;
   min-height: 100vh;
+  overflow-y: auto;
+  direction: rtl; /* Déplace la scrollbar à gauche */
+}
+
+body > * {
+  direction: ltr; /* Réajuste le contenu pour un affichage normal */
 }
 
 h1 {
@@ -54,6 +60,25 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Style de la scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #646cff;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #535bf2;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -64,5 +89,8 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f9f9f9;
   }
 }
