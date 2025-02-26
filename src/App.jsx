@@ -15,7 +15,7 @@ const InstrumentMusic = () => {
     const fetchData = async () => {
       try {
         const instrumentsRes = await axios.get(
-          "http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100"
+          "https://musicalinstruments.faaaster.dev/wp-json/wp/v2/instrument-musique/?per_page=100"
         );
         setInstruments(instrumentsRes.data);
       } catch (err) {
