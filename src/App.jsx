@@ -14,18 +14,10 @@ const InstrumentMusic = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-<<<<<<< HEAD
         const instrumentsRes = await axios.get(
           "http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100"
         );
         setInstruments(instrumentsRes.data);
-=======
-        const { data } = await axios.get(
-          "http://les-instruments-de-musique.local/wp-json/wp/v2/instrument-musique/?per_page=100"
-        );
-        console.log("Instruments reçus:", data);
-        setInstruments(data);
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
       } catch (err) {
         setError("Erreur lors du chargement des données");
       } finally {
@@ -35,35 +27,22 @@ const InstrumentMusic = () => {
     fetchData();
   }, []);
 
-  const getSortedInstruments = () =>
-    sorted
-      ? [...instruments].sort((a, b) =>
-          a.nom_de_linstrument.localeCompare(b.nom_de_linstrument)
-        )
+  const getSortedInstruments = () => {
+    return sorted
+      ? [...instruments].sort((a, b) => a.nom_de_linstrument.localeCompare(b.nom_de_linstrument))
       : instruments;
+  };
 
-<<<<<<< HEAD
   const getFilteredInstruments = () => {
     if (!selectedFamily) return getSortedInstruments();
     return getSortedInstruments().filter(instr =>
       instr.categorie_de_linstrument.toLowerCase().includes(selectedFamily.toLowerCase())
     );
   };
-=======
-  const getFilteredInstruments = () =>
-    selectedFamily
-      ? getSortedInstruments().filter(
-          (instr) => instr.categorie_de_linstrument === selectedFamily
-        )
-      : getSortedInstruments();
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
 
   return (
     <div className="flex h-screen">
-      <div
-        className={`burger-menu ${menuOpen ? "active" : ""}`}
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
+      <div className={`burger-menu ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
         <div></div>
         <div></div>
         <div></div>
@@ -72,7 +51,6 @@ const InstrumentMusic = () => {
       <nav className={`sidebar ${menuOpen ? "active" : ""}`}>
         <h2>Instruments de musique</h2>
 
-<<<<<<< HEAD
         <select value={selectedFamily} onChange={(e) => setSelectedFamily(e.target.value)}>
           <option value="">Toutes les familles</option>
           <option value="cordes frottées">Cordes frottées</option>
@@ -80,19 +58,6 @@ const InstrumentMusic = () => {
           <option value="famille des instruments à vent (cuivre)">famille des instruments à vent (Cuivres)</option>
           <option value="famille des instruments à vent (bois)">famille des instruments à vents (Bois)</option>
           <option value="percussions">Percussions</option>
-=======
-        <select
-          value={selectedFamily}
-          onChange={(e) => setSelectedFamily(e.target.value)}
-        >
-          <option value="">Toutes les familles</option>
-          <option value="famille des instruments à cordes frottées">famille des instruments à cordes frottées</option>
-          <option value="famille des instruments à cordes pincées">famille des instruments à cordes pincées</option>
-          <option value="famille des instruments à vents (cuivres)">famille des instruments à vents (cuivres)</option>
-          <option value="famille des instruments à vents (bois)">famille des instruments à vents (bois)</option>
-          <option value="famille des Percussions">famille des Percussions</option>
-          <option value="famille des Idiophones à frappe">famille des Idiophones à frappe</option>
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
         </select>
 
         <button onClick={() => setSorted(!sorted)}>
@@ -105,14 +70,8 @@ const InstrumentMusic = () => {
           <p className="text-red-500">{error}</p>
         ) : (
           <ul>
-            {getFilteredInstruments().map((instr) => (
-              <li
-                key={instr.id}
-                onClick={() => {
-                  setSelectedInstrument(instr);
-                  setMenuOpen(false);
-                }}
-              >
+            {getFilteredInstruments().map(instr => (
+              <li key={instr.id} onClick={() => { setSelectedInstrument(instr); setMenuOpen(false); }}>
                 {instr.nom_de_linstrument}
               </li>
             ))}
@@ -127,18 +86,10 @@ const InstrumentMusic = () => {
             {selectedInstrument.image && (
               <img src={selectedInstrument.image.guid} alt={selectedInstrument.nom_de_linstrument} className="w-64 my-4 rounded-lg shadow-md" />
             )}
-            <p>
-              <strong>Description:</strong> {selectedInstrument.description_de_linstrument}
-            </p>
-            <p>
-              <strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}
-            </p>
-            <p>
-              <strong>Morceaux:</strong> {selectedInstrument.morceau}
-            </p>
-            <p>
-              <strong>Famille:</strong> {selectedInstrument.categorie_de_linstrument}
-            </p>
+            <p><strong>Description:</strong> {selectedInstrument.description_de_linstrument}</p>
+            <p><strong>Taille:</strong> {selectedInstrument.taille_de_linstrument}</p>
+            <p><strong>Morceaux:</strong> {selectedInstrument.morceau}</p>
+            <p><strong>Famille:</strong> {selectedInstrument.categorie_de_linstrument}</p>
           </div>
         ) : (
           <div>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* 🎼🎵🎶 Global Styles 🎚️🎷🎸🪇🥁🪕🎻🎺🎹 */
 #root {
   max-width: 1280px;
@@ -7,9 +6,6 @@
   text-align: center;
 }
 
-=======
-/* 🌟 Global Styles */
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
 body {
   font-family: "Poppins", sans-serif;
   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><text x="10" y="40" font-size="30">🎼 🎵 🎶 🎤 🎧</text><text x="10" y="90" font-size="30">🎸 🥁 🎻 🎺 🎷</text></svg>');
@@ -21,29 +17,21 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100%;
-}
-
-#root {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
 }
 
 
 /* 🎼 Home Page 🎵 */
 .home-container {
   text-align: center;
-  padding: 5%;
+  padding: 50px;
   background: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  max-width: 80%;
+  max-width: 500px;
 }
 
 .home-container h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #333;
 }
 
@@ -71,19 +59,13 @@ body {
 /* 🎸 Layout 🎺 */
 .flex {
   display: flex;
-<<<<<<< HEAD
   width: 1200px;
   max-width: 1200px;
-=======
-  flex-direction: row;
-  width: 100%;
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
   height: 90vh;
   background: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;
-  padding: 2%;
 }
 
 /* 🎤 Sidebar 🎻 */
@@ -91,11 +73,11 @@ nav {
   width: 30%;
   background: #1f2937;
   color: white;
-  padding: 5%;
+  padding: 20px;
 }
 
 nav h2 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   border-bottom: 2px solid #4a5568;
   padding-bottom: 10px;
   margin-bottom: 20px;
@@ -107,7 +89,7 @@ nav ul {
 }
 
 nav ul li {
-  padding: 10%;
+  padding: 12px;
   cursor: pointer;
   transition: background 0.3s ease;
   border-radius: 5px;
@@ -124,11 +106,11 @@ nav ul li.bg-gray-600 {
 /* 🎷 Main Content 🎚️ */
 main {
   width: 70%;
-  padding: 5%;
+  padding: 30px;
 }
 
 main h2 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #333;
 }
 
@@ -138,7 +120,7 @@ main p {
 }
 
 main img {
-  width: 40%;
+  width: 300px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
@@ -173,51 +155,24 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     margin: 0;
     padding: 0;
     height: 100vh;
-    width: 100%;
   }
-
-  .flex {
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-  }
-
-  .home-container {
-    padding: 5%;
-    width: 90%;
-  }
-
-  img {
-    width: 60%;
-    margin-top: 5%;
-  }
-<<<<<<< HEAD
   
-=======
-
-  /* 🎵 Titre principal */
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
+  img {
+    width: 100px;
+  }
+  
   h1, h2 {
     font-family: "Merriweather", serif;
     font-weight: 700;
     letter-spacing: 1px;
   }
-<<<<<<< HEAD
   
-=======
-
-  /* 🌟 Sous-titres et texte */
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
   p {
     font-family: "Merriweather", serif;
     font-weight: 400;
     line-height: 1.6;
   }
-<<<<<<< HEAD
   
-=======
-
->>>>>>> a9372f61074cbffb545688a6d0715c3dd8aa26b3
   nav {
     width: 100%;
     position: absolute;
@@ -225,7 +180,6 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
     left: -100%;
     height: 100vh;
     transition: left 0.3s ease;
-    padding: 5%;
   }
 
   /* 🎚️ Burger Menu */
@@ -248,7 +202,7 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
 
   /* 🎵 Show Sidebar When Active 🎷 */
   nav.active {
-    left: 0;
+    left: auto;
   }
 
   /* 🎼 Burger Menu Animation 🎹 */
@@ -262,20 +216,5 @@ nav::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb {
 
   .burger-menu.active div:nth-child(3) {
     transform: translateY(-10px) rotate(-45deg);
-  }
-
-  /* 🎶 Pour le menu burger */
-  nav ul li {
-    padding: 20%;
-    text-align: center;
-  }
-
-  main {
-    width: 100%;
-    padding: 5%;
-  }
-
-  main h2 {
-    font-size: 1.8rem;
   }
 }
